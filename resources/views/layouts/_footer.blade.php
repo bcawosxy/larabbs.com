@@ -1,7 +1,7 @@
 <div class="col-md-12">
     <footer class="footer">
         <small class="slogon">
-            <a href="https://laravel-china.org/courses">
+            <a href="javascript:void(0);">
                abcdefghijklmnopqrstuvwxyz
             </a>
         </small>

@@ -4,8 +4,8 @@
             <a href="/" id="logo">Sample App</a>
             <nav>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/help">Help</a></li>
-                    <li><a href="#">Login</a></li>
+                    <li><a href="javascript:void(0);">Help</a></li>
+                    <li><a href="{{route('user::signup')}}">Login</a></li>
                 </ul>
             </nav>
         </div>

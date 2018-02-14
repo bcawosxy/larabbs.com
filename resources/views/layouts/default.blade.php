@@ -5,11 +5,11 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-@include('layout._header')
-<div class="container">
+@include('layouts._header')
+<div class="container" style="margin-top:100px;">
     <div class="col-md-offset-1 col-md-10">
         @yield('content')
-        @include('layout._footer')
+        @include('layouts._footer')
     </div>
 </div>
 </body>

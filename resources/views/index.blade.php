@@ -1,4 +1,4 @@
-@extends('layout.default')
+@extends('layouts.default')
 @section('title', 'Larabbs Home')
 @section('content')
     <div class="jumbotron">
