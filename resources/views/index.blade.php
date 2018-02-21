@@ -7,7 +7,7 @@
             ...
         </p>
         <p>
-            <a class="btn btn-lg btn-success" href="#" role="button">Login</a>
+            <a class="btn btn-lg btn-success" href="{{route('user::signup')}}" role="button">Login</a>
         </p>
     </div>
 @stop
