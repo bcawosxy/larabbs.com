@@ -3,6 +3,8 @@
     <title>@yield('title', 'Larabbs') - Laravel </title>
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/js/app.js"></script>
 </head>
 <body>
 @include('layouts._header')
