@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class SessionsController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('guest', [
+			'only' => ['create']
+		]);
+	}
+
 	public function create()
 	{
 		return view('sessions.create');
@@ -14,14 +21,14 @@ class SessionsController extends Controller
 
 	public function store(Request $request)
 	{
-		$credentials = $this->validate($request, [
+		$this->validate($request, [
 			'email' => 'required|email|max:255',
 			'password' => 'required'
 		]);
 
 		if (Auth::attempt(['email' => $request->email, 'password' =>  $request->password], $request->has('remember'))) {
 			session()->flash('success', 'Welcome Back！');
-			return redirect()->route('user::show', [Auth::user()]);
+			return redirect()->intended(route('user::show', [Auth::user()]));
 		} else {
 			session()->flash('danger', 'Sorry..， 帳號或密碼錯誤');
 			return redirect()->back();
