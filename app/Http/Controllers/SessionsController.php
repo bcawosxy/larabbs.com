@@ -27,8 +27,16 @@ class SessionsController extends Controller
 		]);
 
 		if (Auth::attempt(['email' => $request->email, 'password' =>  $request->password], $request->has('remember'))) {
-			session()->flash('success', 'Welcome Back！');
-			return redirect()->intended(route('user::show', [Auth::user()]));
+
+			if(Auth::user()->activated) {
+				session()->flash('success', 'Welcome Back！');
+				return redirect()->intended(route('user::show', [Auth::user()]));
+			} else {
+				Auth::logout();
+				session()->flash('warning', '您的帳號未驗證通過, 請確認驗證信。');
+				return redirect('/');
+			}
+
 		} else {
 			session()->flash('danger', 'Sorry..， 帳號或密碼錯誤');
 			return redirect()->back();

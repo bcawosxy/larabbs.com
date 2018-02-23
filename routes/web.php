@@ -6,6 +6,9 @@ Route::group(['prefix'=>'/', 'as'=>'static::'], function() {
 	Route::get('login', ['as' => 'login', 'uses'=> 'SessionsController@create']);
 	Route::post('login', ['as' => 'login','uses' => 'SessionsController@store']);
 	Route::delete('logout', ['as' => 'logout', 'uses' => 'SessionsController@destroy']);
+
+	Route::get('signup/confirm/{token}', ['as' => 'confirm_email' , 'uses' => 'UsersController@confirmEmail']);
+
 });
 
 Route::group(['prefix'=>'/user', 'as'=>'user::'], function() {

@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Mail;
+use Auth;
 
 class UsersController extends Controller
 {
 	public function __construct()
 	{
 		$this->middleware('auth', [
-			'except' => ['show', 'create', 'store', 'index']
+			'except' => ['show', 'create', 'store', 'index', 'confirmEmail']
 		]);
 
 		$this->middleware('guest', [
@@ -24,6 +26,19 @@ class UsersController extends Controller
 		return view('users.create');
 	}
 
+	public function confirmEmail($token)
+	{
+		$user = User::where('activation_token', $token)->firstOrFail();
+
+		$user->activated = true;
+		$user->activation_token = null;
+		$user->save();
+
+		Auth::login($user);
+		session()->flash('success', '恭喜你，激活成功！');
+		return redirect()->route('user::show', [$user]);
+	}
+
 	public function edit(User $user)
 	{
 
@@ -34,6 +49,20 @@ class UsersController extends Controller
 	{
 		$users = User::paginate(10);
 		return view('users.index', compact('users'));
+	}
+
+	protected function sendEmailConfirmationTo($user)
+	{
+		$view = 'emails.confirm';
+		$data = compact('user');
+		$from = 'aufree@yousails.com';
+		$name = 'Aufree';
+		$to = $user->email;
+		$subject = "感謝註冊, 請驗證您的信箱。";
+
+		Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
+			$message->from($from, $name)->to($to)->subject($subject);
+		});
 	}
 
 	public function show(User $user)
@@ -55,8 +84,9 @@ class UsersController extends Controller
 			'password' => bcrypt($request->password),
 		]);
 
-		Auth::login($user);
-		session()->flash('success', '註冊完成~歡迎光臨'. $request->name);
+		$this->sendEmailConfirmationTo($user);
+		session()->flash('success', '註冊驗證信件已發送, 請確認信箱。');
+
 		return redirect()->route('user::show', [$user]);
 	}
 
