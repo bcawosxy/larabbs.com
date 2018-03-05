@@ -21,7 +21,7 @@ class User extends Authenticatable
 
 	/**
 	 * Eloquent 事件, 監聽 creating發生時執行的事件 ( https://d.laravel-china.org/docs/5.4/eloquent#events )
-	 *  此處則是監聽建立使用者後自動填入一驗證用令牌字串
+	 *  此處則是監聽建立使用者後自動填入一驗證帳號用令牌字串
 	 */
 	public static function boot()
 	{
@@ -38,4 +38,8 @@ class User extends Authenticatable
 		return "http://www.gravatar.com/avatar/$hash?s=$size";
 	}
 
+	public function statuses()
+	{
+		return $this->hasMany(Status::class);
+	}
 }
