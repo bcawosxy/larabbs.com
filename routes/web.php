@@ -20,3 +20,5 @@ Route::group(['prefix'=>'/user', 'as'=>'user::'], function() {
 
 	Route::post('/store', ['as'=> 'store','uses'=> 'UsersController@store']) ;
 });
+
+Route::resource('statuses', 'StatusesController', ['only' => ['store', 'destroy']]);
